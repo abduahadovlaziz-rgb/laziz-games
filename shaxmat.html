@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laziz Games PRO 20</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #0f0f0f;
+            color: white;
+            font-family: Arial;
+        }
+
+        header {
+            background: #222;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .card {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #333;
+        }
+
+        #game {
+            text-align: center;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 8px;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>🎮 LAZIZ GAMES PRO 20 REAL</header>
+
+    <div id="menu" class="grid"></div>
+    <div id="game"></div>
+
+    <script>
+
+        let games = [];
+        for (let i = 1; i <= 20; i++) {
+            games.push({ id: i, name: "O‘yin " + i });
+        }
+
+        function render() {
+            let box = document.getElementById("menu");
+            box.innerHTML = "";
+            games.forEach(g => {
+                box.innerHTML += `<div class="card" onclick="openGame(${g.id})">${g.name}</div>`;
+            });
+        }
+        render();
+
+        function openGame(id) {
+            document.getElementById("menu").style.display = "none";
+            let g = document.getElementById("game");
+            g.innerHTML = "";
+
+            if (id == 1) clicker(g);
+            else if (id == 2) guess(g);
+            else if (id == 3) math(g);
+            else if (id == 4) reaction(g);
+            else if (id == 5) penalty(g);
+            else if (id == 6) coin(g);
+            else if (id == 7) dice(g);
+            else if (id == 8) rps(g);
+            else if (id == 9) memory(g);
+            else if (id == 10) fastClick(g);
+            else mini(g, id);
+        }
+
+        // BACK
+        function back() {
+            document.getElementById("menu").style.display = "grid";
+            document.getElementById("game").innerHTML = "";
+        }
+
+        // 1 CLICKER
+        function clicker(g) {
+            let s = 0;
+            g.innerHTML = `<h2>🖱 Kliker</h2><div id="s">0</div><button onclick="add()">BOS</button><button onclick="back()">Orqaga</button>`;
+            window.add = () => { s++; document.getElementById("s").innerText = s; }
+        }
+
+        // 2 GUESS
+        function guess(g) {
+            let n = Math.floor(Math.random() * 3);
+            g.innerHTML = `<h2>🔢 Top</h2>
+<button onclick="check(${n},0)">0</button>
+<button onclick="check(${n},1)">1</button>
+<button onclick="check(${n},2)">2</button>
+<button onclick="back()">Orqaga</button>`;
+            window.check = (c, v) => alert(c == v ? "To‘g‘ri" : "Xato");
+        }
+
+        // 3 MATH
+        function math(g) {
+            let a = Math.floor(Math.random() * 10);
+            let b = Math.floor(Math.random() * 10);
+            g.innerHTML = `<h2>➕ Hisob</h2>${a}+${b}=?<br><input id="a"><button onclick="ok(${a + b})">Tekshir</button><button onclick="back()">Orqaga</button>`;
+            window.ok = (c) => alert(document.getElementById("a").value == c ? "To‘g‘ri" : "Xato");
+        }
+
+        // 4 REACTION
+        function reaction(g) {
+            g.innerHTML = `<h2>⚡ Reaksiya</h2><button id="b" disabled>Kut...</button><button onclick="back()">Orqaga</button>`;
+            setTimeout(() => {
+                let b = document.getElementById("b");
+                b.disabled = false;
+                b.innerText = "BOS!";
+                b.onclick = () => alert("Tez!");
+            }, 1500);
+        }
+
+        // 5 PENALTI
+        function penalty(g) {
+            g.innerHTML = `<h2>⚽ Penalti</h2><button onclick="kick()">URISH</button><button onclick="back()">Orqaga</button>`;
+            window.kick = () => alert(Math.random() > 0.5 ? "GOL ⚽" : "QAYTARILDI 🧤");
+        }
+
+        // 6 COIN
+        function coin(g) {
+            g.innerHTML = `<h2>🪙 Tanga</h2><button onclick="flip()">OT</button><div id="c"></div><button onclick="back()">Orqaga</button>`;
+            window.flip = () => document.getElementById("c").innerText = Math.random() > 0.5 ? "BOSH" : "QIRRA";
+        }
+
+        // 7 DICE
+        function dice(g) {
+            g.innerHTML = `<h2>🎲 Zar</h2><button onclick="roll()">OT</button><div id="d"></div><button onclick="back()">Orqaga</button>`;
+            window.roll = () => document.getElementById("d").innerText = Math.floor(Math.random() * 6) + 1;
+        }
+
+        // 8 RPS
+        function rps(g) {
+            g.innerHTML = `<h2>✊ Tosh-Qaychi</h2>
+<button onclick="r('tosh')">Tosh</button>
+<button onclick="r('qaychi')">Qaychi</button>
+<button onclick="r('qogoz')">Qog‘oz</button>
+<button onclick="back()">Orqaga</button>`;
+            window.r = (p) => {
+                let c = ["tosh", "qaychi", "qogoz"][Math.floor(Math.random() * 3)];
+                alert(p == c ? "Durrang" : (p == "tosh" && c == "qaychi" || p == "qaychi" && c == "qogoz" || p == "qogoz" && c == "tosh") ? "Yutding" : "Yutqazding");
+            };
+        }
+
+        // 9 MEMORY
+        function memory(g) {
+            let n = Math.floor(Math.random() * 100);
+            g.innerHTML = `<h2>🧠 Xotira</h2>${n}<br><button onclick="check()">YODLAB OLDIM</button><button onclick="back()">Orqaga</button>`;
+            window.check = () => alert("OK 👍");
+        }
+
+        // 10 FAST CLICK
+        function fastClick(g) {
+            g.innerHTML = `<h2>⚡ Tez Bos</h2><button onclick="go()">BOS!</button><button onclick="back()">Orqaga</button>`;
+            let t = Date.now();
+            window.go = () => {
+                let diff = Date.now() - t;
+                alert(diff + " ms");
+            };
+        }
+
+        // 11-20
+        function mini(g, id) {
+            g.innerHTML = `<h2>🎮 O‘yin ${id}</h2><button onclick="back()">Orqaga</button>`;
+        }
+
+    </script>
+
+</body>
+
+</html>
